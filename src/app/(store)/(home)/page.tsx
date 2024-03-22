@@ -4,23 +4,23 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getFeaturedProducts(): Promise<Array<Product>> {
-  const response = await api('/products/featured', {
-    // cache:'no-store',
-    next: {
-      revalidate: 60 * 60, // 1 hour
-    },
-  })
-  const products = await response.json()
-
-  return products
-}
-
 export const metadata: Metadata = {
   title: 'Home',
 }
 
 export default async function Home() {
+  async function getFeaturedProducts(): Promise<Array<Product>> {
+    const response = await api('/products/featured', {
+      // cache:'no-store',
+      next: {
+        revalidate: 60 * 60, // 1 hour
+      },
+    })
+    const products = await response.json()
+
+    return products
+  }
+
   const [highlightedProduct, ...otherProducts] = await getFeaturedProducts()
 
   return (
@@ -52,7 +52,7 @@ export default async function Home() {
       {otherProducts?.map((product) => (
         <Link
           key={product.id}
-          href={`product/${product?.slug}`}
+          href={`/product/${product?.slug}`}
           className="group relative col-span-3 row-span-3 flex items-end justify-center overflow-hidden rounded-lg bg-zinc-900"
         >
           <Image

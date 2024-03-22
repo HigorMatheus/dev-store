@@ -8,8 +8,6 @@ export async function GET(
   const slug = z.string().parse(params.slug)
   const product = data.products.find((product) => product.slug === slug)
 
-  console.log('api', { product })
-
   if (!product) {
     return Response.json({ message: 'Product not found' }, { status: 400 })
   }

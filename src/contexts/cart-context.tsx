@@ -1,12 +1,12 @@
 'use client'
 import { ReactNode, createContext, useContext, useState } from 'react'
 interface CartItem {
-  productId: string
+  productId: number
   quantity: number
 }
 type CartContextType = {
   itens: Array<CartItem>
-  addToCart: (productId: string) => void
+  addToCart: (productId: number) => void
 }
 
 const CartContext = createContext({} as CartContextType)
@@ -18,7 +18,8 @@ export interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps) {
   const [cartItens, setCartItens] = useState<Array<CartItem>>([])
 
-  function addToCart(productId: string) {
+  function addToCart(productId: number) {
+    console.log({ productId })
     setCartItens((state) => {
       const productInCart = state.some((item) => item.productId === productId)
       if (productInCart) {
